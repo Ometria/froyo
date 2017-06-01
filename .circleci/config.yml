@@ -1,0 +1,21 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/froyo
+    docker:
+     - image: circleci/clojure:lein-2.7.1
+    steps:
+     - checkout
+     - run: lein test
+     - run: lein do clean, ring uberjar
+     - setup_remote_docker
+     # build and push Docker image
+     - run: |
+        if [[ "$CIRCLE_TAG" != "" ]]; then
+          TAG="$CIRCLE_TAG"
+        else
+          TAG="build-$CIRCLE_BUILD_NUM"
+        fi
+        docker build -t quay.io/ometria/froyo:$TAG .
+        docker login -u "$QUAY_USER" -p "$QUAY_PASS" quay.io
+        docker push quay.io/ometria/froyo:$TAG
