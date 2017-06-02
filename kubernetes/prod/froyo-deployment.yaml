@@ -1,0 +1,39 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: froyo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: froyo
+        env: prod
+    spec:
+      containers:
+        - name: froyo
+          image: quay.io/ometria/froyo:build-8
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "475Mi"
+              cpu: "200m"
+            limits:
+              memory: "500Mi"
+              cpu: "400m"
+#          livenessProbe:
+#            httpGet:
+#              path: /healthz
+#              port: 8081
+#            initialDelaySeconds: 5
+#            timeoutSeconds: 1
+#          readinessProbe:
+#            httpGet:
+#              path: /healthz
+#              port: 8081
+#            initialDelaySeconds: 5
+#            timeoutSeconds: 1
+          ports:
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: ometria-kube-pull-secret
