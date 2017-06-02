@@ -44,16 +44,19 @@
 
       (GET "/orders" []
         :return [FroyoOut]
-        :summary "Lists orders"
+        :summary "List orders"
+        :description "List orders"
         (ok (get-orders)))
 
-      (POST "/order" []
+      (POST "/orders" []
         :return  FroyoOut
         :body    [froyo FroyoIn]
-        :summary "Creates a new order"
+        :summary "Create a new order"
+        :description "Create a new order"
         (ok (add! froyo)))
 
       (DELETE "/orders" []
-        :return []
-        :summary "Clears all orders. *Use with caution!!!*"
+        :return [FroyoOut]
+        :summary "Clear all orders. **Use with caution!!!**"
+        :description "Clear all orders.\n\n**Use with caution!!!**"
         (ok (clear!))))))

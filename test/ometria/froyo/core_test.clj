@@ -18,7 +18,7 @@
 
   (testing "Test POST request to /order creates new order"
            (let [req-json {:name "Hello", :size "little", :flavour "red", :toppings ["red"]}
-                 response (app (-> (mock/request :post "/api/order" (json/generate-string req-json))
+                 response (app (-> (mock/request :post "/api/orders" (json/generate-string req-json))
                                    (mock/content-type "application/json")))
                  body     (parse-body (:body response))]
              (is (= (:status response) 200))
